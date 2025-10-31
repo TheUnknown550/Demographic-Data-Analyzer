@@ -40,23 +40,20 @@ def calculate_demographic_data(print_data=True):
         (num_min_workers[num_min_workers['salary'] == '>50K'].shape[0] /
          num_min_workers.shape[0]) * 100, 1)
 
-    # What country has the highest percentage of people that earn >50K?
-    highest_earning_country = None
-    highest_earning_country_percentage = None
-    
     # Countries with the highest percentage of people that earn >50K
     country_rich_pct = (
         df[df['salary'] == '>50K']['native-country'].value_counts() /
         df['native-country'].value_counts() * 100
     ).dropna()
 
+    # What country has the highest percentage of people that earn >50K?
+    highest_earning_country = country_rich_pct.idxmax()
+    highest_earning_country_percentage = round(country_rich_pct.max(), 1)
+
     # Identify the most popular occupation for those who earn >50K in India.
-    top_IN_occupation = None
+    top_IN_occupation = df[(df['native-country'] == 'India') & (df['salary'] == '>50K')]['occupation'].value_counts().idxmax()
 
     # DO NOT MODIFY BELOW THIS LINE
-    
-    
-
     if print_data:
         print("Number of each race:\n", race_count) 
         print("Average age of men:", average_age_men)
